@@ -29,11 +29,12 @@ UserSchema.pre("save", async function () {
 })
 
 UserSchema.methods.createJWT = function () {
-    return jwt.sign({ userId: this._id, name: this.name }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME })
+    token = jwt.sign({ userId: this._id, name: this.name }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_LIFETIME })
+    return token
 }
 
 UserSchema.methods.comparePassword = async function (userPassword) {
-    const isMatch = await bcrypt.compare(userPassword, this.password)
+    const isMatch = bcrypt.compare(userPassword, this.password)
     return isMatch
 }
 
